@@ -211,15 +211,17 @@ public class DBUtil {
 	 */
 	public static boolean isValidUser(String user, String password) throws SQLException{
 		if (user == null || password == null || user.trim().length() == 0 || password.trim().length() == 0)
-			return false; 
-		
+			return false;
+
 		Connection connection = getConnection();
-		Statement statement = connection.createStatement();
-		
-		ResultSet resultSet =statement.executeQuery("SELECT COUNT(*)FROM PEOPLE WHERE USER_ID = '"+ user +"' AND PASSWORD='" + password + "'"); /* BAD - user input should always be sanitized */
-		
+		java.sql.PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM PEOPLE WHERE USER_ID = ? AND PASSWORD = ?");
+		preparedStatement.setString(1, user);
+		preparedStatement.setString(2, password);
+
+		ResultSet resultSet = preparedStatement.executeQuery();
+
 		if (resultSet.next()){
-			
+
 				if (resultSet.getInt(1) > 0)
 					return true;
 		}
