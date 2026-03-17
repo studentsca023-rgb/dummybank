@@ -4,4 +4,5 @@ USER root
 ADD https://github.com/HCL-TECH-SOFTWARE/AltoroJ/releases/download/v3.4/altoromutual.war /usr/local/tomcat/webapps
 EXPOSE 8080
 
+USER nobody
 CMD /usr/local/tomcat/bin/catalina.sh run
